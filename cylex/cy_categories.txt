@@ -1,0 +1,35 @@
+Abogados
+Academias
+Asesorías
+Bazares
+Boutique de Ropa
+Carnicería
+Carpintería
+Clínicas
+Colegios
+Colegios Internos
+Comida para Llevar
+Construcciones
+Corsets
+Dentistas
+Electrodomésticos
+Electrónica
+Escuelas
+Farmacias
+Inmobiliaria
+Masajes
+Materiales de Construcción
+Médicos
+Modistas
+Moteles
+Panaderías
+Peluquerías
+Posadas
+Restaurantes
+Seguros
+Talleres Mecánicos
+Telas
+Tiendas de Alimentación
+Tiendas de Muebles
+Vehículos
+Zapatos
