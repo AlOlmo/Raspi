@@ -12,6 +12,32 @@ def safe_extract_text(element: PageElement):
     else:
         return ''
 
+def extract_address(full_text):
+    # Encuentra el guion que separa la descripción de la dirección
+    start = full_text.find("-") + 1  # Encuentra el guion y el carácter siguiente
+    if start != -1:
+        address = full_text[start:].strip()  # Extrae y limpia la dirección
+        return address
+    return None
+
+def extract_city(full_text):
+    # Encuentra el inicio y el final de la ciudad
+    start = full_text.find("en ") + 3  # Encuentra "en " y el carácter siguiente
+    end = full_text.find(" (")  # Encuentra el primer paréntesis
+    if start != -1 and end != -1 and start < end:
+        city = full_text[start:end].strip()  # Extrae y limpia la ciudad
+        return city
+    return None
+
+def extract_province(full_text):
+    # Encuentra el inicio y el final de la provincia entre paréntesis
+    start = full_text.find("(") + 1  # Encuentra la apertura del paréntesis y el carácter siguiente
+    end = full_text.find(")")  # Encuentra el cierre del paréntesis
+    if start != -1 and end != -1 and start < end:
+        province = full_text[start:end].strip()  # Extrae y limpia la provincia
+        return province
+    return None
+
 
 categories = open("vu_categories.txt", "r")
 
@@ -42,10 +68,10 @@ if __name__ == '__main__':
                 parsed_items.append({
                     "name": safe_extract_text(item.find_next("h3").find("a")),###
                     "postal_code": safe_extract_text(item.find_next("span", {"itemprop": "postalCode"})),
-                    "province": safe_extract_text(item.find_next("span", {"itemprop": "addressRegion"})),
-                    "city": safe_extract_text(item.find_next("span", {"itemprop": "addressLocality"})),#
+                    "province": extract_province(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
+                    "city": extract_city(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
                     "phone": safe_extract_text(item.find("div", class_="infoContacto")),###
-                    "address": safe_extract_text(item.find("span", class_="localizacion")),#
+                    "address": extract_address(safe_extract_text(item.find("span", class_="localizacion"))),###
                     "web": " " #
             })
 
