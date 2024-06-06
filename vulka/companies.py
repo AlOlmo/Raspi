@@ -38,6 +38,68 @@ def extract_province(full_text):
         return province
     return None
 
+def get_pc(province):
+    provinces = {
+        "Álava": "01001",
+        "Albacete": "02001",
+        "Alicante": "03001",
+        "Almería": "04001",
+        "Ávila": "05001",
+        "Badajoz": "06001",
+        "Islas Baleares": "07001",
+        "Barcelona": "08001",
+        "Burgos": "09001",
+        "Cáceres": "10001",
+        "Cádiz": "11001",
+        "Castellón": "12001",
+        "Ciudad Real": "13001",
+        "Córdoba": "14001",
+        "A Coruña": "15001",
+        "Cuenca": "16001",
+        "Girona": "17001",
+        "Granada": "18001",
+        "Guadalajara": "19001",
+        "Guipúzcoa": "20001",
+        "Huelva": "21001",
+        "Huesca": "22001",
+        "Jaén": "23001",
+        "León": "24001",
+        "Lleida": "25001",
+        "La Rioja": "26001",
+        "Lugo": "27001",
+        "Madrid": "28001",
+        "Málaga": "29001",
+        "Murcia": "30001",
+        "Navarra": "31001",
+        "Ourense": "32001",
+        "Asturias": "33001",
+        "Palencia": "34001",
+        "Las Palmas": "35001",
+        "Pontevedra": "36001",
+        "Salamanca": "37001",
+        "Santa Cruz de Tenerife": "38001",
+        "Cantabria": "39001",
+        "Segovia": "40001",
+        "Sevilla": "41001",
+        "Soria": "42001",
+        "Tarragona": "43001",
+        "Teruel": "44001",
+        "Toledo": "45001",
+        "Valencia": "46001",
+        "Valladolid": "47001",
+        "Vizcaya": "48001",
+        "Zamora": "49001",
+        "Zaragoza": "50001",
+        "Ceuta": "51001",
+        "Melilla": "52001"
+    }
+
+    if province in provinces:
+        print("PC ->", provinces[province])
+        return provinces[province]
+    else:
+        return None
+
 
 categories = open("vu_categories.txt", "r")
 
@@ -67,8 +129,8 @@ if __name__ == '__main__':
         
                 parsed_items.append({
                     "name": safe_extract_text(item.find_next("h3").find("a")),###
-                    "postal_code": safe_extract_text(item.find_next("span", {"itemprop": "postalCode"})),
                     "province": extract_province(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
+                    "postal_code": get_pc(extract_province(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"})))),###
                     "city": extract_city(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
                     "phone": safe_extract_text(item.find("div", class_="infoContacto")),###
                     "address": extract_address(safe_extract_text(item.find("span", class_="localizacion"))),###
