@@ -135,17 +135,10 @@ if __name__ == '__main__':
                             "address": safe_extract_text(item.find("p", class_="lm-adr-ln2")),###
                             "web": " " 
                     })
-
-                    # Imprimir el array parsed_items
-                    print(parsed_items)
-
-                    # Detener la ejecución después de la impresión
-                    sys.exit()
-
                     page += 1
-
+                    time.sleep(3)
             # Write file TODO cambiar el nombre de cada ciudad a peinar
-                    pd.DataFrame.from_dict(parsed_items).to_csv(f"BarcelonaCylex.csv", mode='a', header=False, sep='#')
+                    pd.DataFrame.from_list(parsed_items).to_csv(f"BarcelonaCylex.csv", mode='a', header=False, sep='#')
                     time_2 = time.process_time()
                     print(f"Page https://www.cylex.es/s?q={category}&c=&z={varPC}&p={page} scrapped (time: {time_2 - time_1})")
                     

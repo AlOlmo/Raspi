@@ -139,13 +139,11 @@ if __name__ == '__main__':
             })
 
                 # Imprimir el array parsed_items
-            print(parsed_items)
 
-            # Detener la ejecución después de la impresión
-            sys.exit()
-
-        # Write file
-        pd.DataFrame.from_dict(parsed_items).to_csv(f"{category}.csv", mode='a', header=False, sep='#')
-        time_2 = time.process_time()
-        print(f"Page {number} scrapped (time: {time_2 - time_1})")
+            time.sleep(3)
+            # Write file
+            pd.DataFrame.from_dict(parsed_items).to_csv(f"{category}.csv", mode='a', header=False, sep='#')
+            time_2 = time.process_time()
+            print(f"Page {page} scrapped (time: {time_2 - time_1})")
+            page += 1
 

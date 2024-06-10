@@ -1,1 +1,6 @@
-caretas
+accesorios-armario
+alquiler-mobiliario
+alquiler-muebles
+armarios
+articulos-decoracion
+celosias
