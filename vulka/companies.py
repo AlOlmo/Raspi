@@ -4,30 +4,31 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup, PageElement
 import pandas as pd
+import sys
 
 
 def safe_extract_text(element: PageElement):
     if element is not None:
-        return element.text
+        return element.get_text(strip=True).replace('\n', '').replace('\t', '').strip()
     else:
         return ''
 
 def extract_address(full_text):
     # Encuentra el guion que separa la descripción de la dirección
     start = full_text.find("-") + 1  # Encuentra el guion y el carácter siguiente
-    if start != -1:
-        address = full_text[start:].strip()  # Extrae y limpia la dirección
-        return address
-    return None
+
+    address = full_text[start:].strip()  # Extrae y limpia la dirección
+    return address
+
 
 def extract_city(full_text):
     # Encuentra el inicio y el final de la ciudad
     start = full_text.find("en ") + 3  # Encuentra "en " y el carácter siguiente
     end = full_text.find(" (")  # Encuentra el primer paréntesis
-    if start != -1 and end != -1 and start < end:
-        city = full_text[start:end].strip()  # Extrae y limpia la ciudad
-        return city
-    return None
+
+    city = full_text[start:end].strip()  # Extrae y limpia la ciudad
+    return city
+
 
 def extract_province(full_text):
     # Encuentra el inicio y el final de la provincia entre paréntesis
@@ -129,13 +130,19 @@ if __name__ == '__main__':
         
                 parsed_items.append({
                     "name": safe_extract_text(item.find_next("h3").find("a")),###
-                    "province": extract_province(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
-                    "postal_code": get_pc(extract_province(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"})))),###
-                    "city": extract_city(safe_extract_text(item.find_next("span", {"itemprop": "localizacion"}))),###
+                    "province": extract_province(safe_extract_text(item.find("span", class_="localizacion"))),###
+                    "postal_code": get_pc(extract_province(safe_extract_text(item.find("span", class_="localizacion")))),###
+                    "city": extract_city(safe_extract_text(item.find("span", class_="localizacion"))),###
                     "phone": safe_extract_text(item.find("div", class_="infoContacto")),###
                     "address": extract_address(safe_extract_text(item.find("span", class_="localizacion"))),###
                     "web": " " #
             })
+
+                # Imprimir el array parsed_items
+            print(parsed_items)
+
+            # Detener la ejecución después de la impresión
+            sys.exit()
 
         # Write file
         pd.DataFrame.from_dict(parsed_items).to_csv(f"{category}.csv", mode='a', header=False, sep='#')

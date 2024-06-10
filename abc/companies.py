@@ -4,6 +4,7 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup, PageElement
 import pandas as pd
+import sys
 
 
 def safe_extract_text(element: PageElement):
@@ -11,6 +12,7 @@ def safe_extract_text(element: PageElement):
         return element.text
     else:
         return ''
+
 
 def extract_city(full_address):
     # Elimina el código postal entre paréntesis
@@ -21,6 +23,7 @@ def extract_city(full_address):
         return city
     return None
 
+
 def extract_postal_code(full_address):
     # Encuentra el inicio y el final del código postal entre paréntesis
     start = full_address.find("(") + 1  # Encuentra la apertura del paréntesis y el carácter siguiente
@@ -30,6 +33,7 @@ def extract_postal_code(full_address):
         return postal_code
     return None
 
+
 def extract_province(full_address):
     # Encuentra la coma que separa la ciudad de la provincia
     start = full_address.find(",") + 1  # Encuentra la coma y el carácter siguiente
@@ -37,6 +41,7 @@ def extract_province(full_address):
         province = full_address[start:].strip()  # Extrae y limpia la provincia
         return province
     return None
+
 
 categories = open("abc_categories.txt", "r")
 
@@ -58,7 +63,9 @@ if __name__ == '__main__':
 
         # Extract data
             soup = BeautifulSoup(html, "html.parser")
+            print(soup)
             items = soup.find_all("div", {"class": "resultItem"})
+            print(items)
             parsed_items = []
             for item in items:
         
@@ -71,6 +78,12 @@ if __name__ == '__main__':
                     "address": safe_extract_text(item.find_next("span", {"itemprop": "streetAddress"})),###
                     "web": " " #
             })
+
+                # Imprimir el array parsed_items
+            print(parsed_items)
+
+                # Detener la ejecución después de la impresión
+            sys.exit()
 
         # Write file
             pd.DataFrame.from_dict(parsed_items).to_csv(f"{category}.csv", mode='a', header=False, sep='#')

@@ -1,3 +1,4 @@
+/rubro/reposterias
 /rubro/molduras%2C_junquillos%2C_listones_y_molduras_perforadas
 /rubro/promotores_constructores
 /rubro/abogados

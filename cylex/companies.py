@@ -5,6 +5,7 @@ import json
 import requests
 from bs4 import BeautifulSoup, PageElement
 import pandas as pd
+import sys
 
 
 def safe_extract_text(element: PageElement):
@@ -12,6 +13,19 @@ def safe_extract_text(element: PageElement):
         return element.text
     else:
         return ''
+
+
+def get_phone(element):
+    if element is not None:
+        text = element.text
+        # Eliminar espacios en blanco entre dígitos
+        text = text.replace(" ", "")
+        # Eliminar el prefijo "+34"
+        text = text.replace("+34", "")
+        return text
+    else:
+        return ""
+
 
 class ProvinceFinder:
     def __init__(self):
@@ -73,9 +87,11 @@ class ProvinceFinder:
     def get_province(self, pc: str) -> str:
         if pc and pc[:2] in self.provinces:
             province = self.provinces[pc[:2]]
-            print(f"Provincia: {province}")
+            #print(f"Provincia: {province}")
             return province
         return None
+
+
 
 finder = ProvinceFinder()
 
@@ -106,19 +122,26 @@ if __name__ == '__main__':
                 # Extract data
                     soup = BeautifulSoup(html, "html.parser")
                     items = soup.find_all("div", {"class": "lm-item"})
+                    #print(items)
                     parsed_items = []
                     for item in items:
                 
                         parsed_items.append({
-                            "name": safe_extract_text(item.find("div", class_="m-0").find("strong")),###
+                            "name": safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")),###
                             "postal_code": {varPC},###
                             "province": finder.get_province(varPC),###
                             "city": safe_extract_text(item.find("p", class_="m-0").find("strong")),###
-                            "phone": safe_extract_text(item.find("p", class_="lm-adr-ln4")),###
+                            "phone": get_phone(item.find("p", class_="lm-adr-ln4")),###
                             "address": safe_extract_text(item.find("p", class_="lm-adr-ln2")),###
                             "web": " " 
                     })
-                    
+
+                    # Imprimir el array parsed_items
+                    print(parsed_items)
+
+                    # Detener la ejecución después de la impresión
+                    sys.exit()
+
                     page += 1
 
             # Write file TODO cambiar el nombre de cada ciudad a peinar
