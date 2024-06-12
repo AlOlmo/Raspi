@@ -124,6 +124,7 @@ if __name__ == '__main__':
                     items = soup.find_all("div", {"class": "lm-item"})
                     #print(items)
                     parsed_items = []
+                    print(category, page)
                     for item in items:
                 
                         parsed_items.append({
@@ -135,10 +136,12 @@ if __name__ == '__main__':
                             "address": safe_extract_text(item.find("p", class_="lm-adr-ln2")),###
                             "web": " " 
                     })
+
+                    print(safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")))
                     page += 1
-                    time.sleep(3)
+                    time.sleep(7)
             # Write file TODO cambiar el nombre de cada ciudad a peinar
-                    pd.DataFrame.from_list(parsed_items).to_csv(f"BarcelonaCylex.csv", mode='a', header=False, sep='#')
+                    pd.DataFrame.from_dict(parsed_items).to_csv(f"Cylex.csv", mode='a', header=False, sep='#')
                     time_2 = time.process_time()
                     print(f"Page https://www.cylex.es/s?q={category}&c=&z={varPC}&p={page} scrapped (time: {time_2 - time_1})")
                     

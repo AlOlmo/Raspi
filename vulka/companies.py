@@ -96,7 +96,7 @@ def get_pc(province):
     }
 
     if province in provinces:
-        print("PC ->", provinces[province])
+        #print("PC ->", provinces[province])
         return provinces[province]
     else:
         return None
@@ -106,7 +106,7 @@ categories = open("vu_categories.txt", "r")
 
 if __name__ == '__main__':
 
-    clas = "moda"
+    clas = "muebles"
 
     for category in categories:
         category = category.strip()  # Elimina cualquier espacio o salto de línea
@@ -126,8 +126,9 @@ if __name__ == '__main__':
             soup = BeautifulSoup(html, "html.parser")
             items = soup.find_all("div", {"class": "normal"})
             parsed_items = []
+            print(category, page)
             for item in items:
-        
+
                 parsed_items.append({
                     "name": safe_extract_text(item.find_next("h3").find("a")),###
                     "province": extract_province(safe_extract_text(item.find("span", class_="localizacion"))),###
@@ -136,11 +137,12 @@ if __name__ == '__main__':
                     "phone": safe_extract_text(item.find("div", class_="infoContacto")),###
                     "address": extract_address(safe_extract_text(item.find("span", class_="localizacion"))),###
                     "web": " " #
-            })
+                })
+                print(safe_extract_text(item.find_next("h3").find("a")))
 
                 # Imprimir el array parsed_items
 
-            time.sleep(3)
+            time.sleep(7)
             # Write file
             pd.DataFrame.from_dict(parsed_items).to_csv(f"{category}.csv", mode='a', header=False, sep='#')
             time_2 = time.process_time()
