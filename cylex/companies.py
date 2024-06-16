@@ -138,10 +138,20 @@ if __name__ == '__main__':
                         })
 
                         print(safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")))
+
+                    if parsed_items:  # Check if there are any parsed items before writing
+                        pd.DataFrame.from_dict(parsed_items).to_csv(f"Cylex.csv", mode='a', header=False, sep='#')
+
+                    time_2 = time.process_time()
+                    print(
+                        f"Page https://www.cylex.es/s?q={category}&c=&z={varPC}&p={page} scrapped (time: {time_2 - time_1})")
+
+                    # Increment page number for the next iteration
                     page += 1
                     time.sleep(7)
-            # Write file TODO cambiar el nombre de cada ciudad a peinar
-                    pd.DataFrame.from_dict(parsed_items).to_csv(f"Cylex.csv", mode='a', header=False, sep='#')
-                    time_2 = time.process_time()
-                    print(f"Page https://www.cylex.es/s?q={category}&c=&z={varPC}&p={page} scrapped (time: {time_2 - time_1})")
+
+                    # Break condition (you need to define how to stop the loop)
+                    # Example: if there are no more items, stop the loop
+                    if not items:
+                        break
                     
