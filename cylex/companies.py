@@ -137,7 +137,7 @@ if __name__ == '__main__':
                             "web": " " 
                         })
 
-                    print(safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")))
+                        print(safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")))
                     page += 1
                     time.sleep(7)
             # Write file TODO cambiar el nombre de cada ciudad a peinar
