@@ -148,4 +148,7 @@ if __name__ == '__main__':
             time_2 = time.process_time()
             print(f"Page {page} scrapped (time: {time_2 - time_1})")
             page += 1
+            if not items:
+                print(f"No more items found for category {category} on page {page}.")
+                break
 
