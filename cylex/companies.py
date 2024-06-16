@@ -129,7 +129,7 @@ if __name__ == '__main__':
                 
                         parsed_items.append({
                             "name": safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")),###
-                            "postal_code": {varPC},###
+                            "postal_code": varPC,###
                             "province": finder.get_province(varPC),###
                             "city": safe_extract_text(item.find("p", class_="m-0").find("strong")),###
                             "phone": get_phone(item.find("p", class_="lm-adr-ln4")),###

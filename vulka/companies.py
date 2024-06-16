@@ -131,8 +131,8 @@ if __name__ == '__main__':
 
                 parsed_items.append({
                     "name": safe_extract_text(item.find_next("h3").find("a")),###
+                    "postal_code": get_pc(extract_province(safe_extract_text(item.find("span", class_="localizacion")))),  ###
                     "province": extract_province(safe_extract_text(item.find("span", class_="localizacion"))),###
-                    "postal_code": get_pc(extract_province(safe_extract_text(item.find("span", class_="localizacion")))),###
                     "city": extract_city(safe_extract_text(item.find("span", class_="localizacion"))),###
                     "phone": safe_extract_text(item.find("div", class_="infoContacto")),###
                     "address": extract_address(safe_extract_text(item.find("span", class_="localizacion"))),###
