@@ -135,7 +135,7 @@ if __name__ == '__main__':
                             "phone": get_phone(item.find("p", class_="lm-adr-ln4")),###
                             "address": safe_extract_text(item.find("p", class_="lm-adr-ln2")),###
                             "web": " " 
-                    })
+                        })
 
                     print(safe_extract_text(item.find("div", class_="h4 bold my-2").find("a")))
                     page += 1
