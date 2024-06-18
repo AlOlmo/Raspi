@@ -1,11 +1,6 @@
-alquiler-mobiliario
-alquiler-muebles
-armarios
-articulos-decoracion
-celosias
-cunas
-decoracion-muebles
-dormitorios
-estanterias
-industria-auxiliar-mueble
-lacados-madera
+lamparas
+mamparas-oficina
+marqueteria
+mesas
+mobiliario
+mobiliario-comercial
